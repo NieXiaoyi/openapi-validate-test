@@ -93,7 +93,7 @@ class TestGetUser:
         response._content = b'{"id": "123e4567-e89b-12d3-a456-426614174000", "username": "Test User", "age": "30"}'
         response.headers = {'Content-Type': 'application/json'}
         openapi_response = RequestsOpenAPIResponse(response)
-
+        # Validate response against OpenAPI spec
         with pytest.raises(OpenAPIError):
             response_validator.validate(openapi_request, openapi_response)
 

@@ -43,11 +43,3 @@ htmlcov/
 # OS
 .DS_Store
 Thumbs.db
-
-# Conda
-conda-env.yml
-environment.yml
-
-# OpenAPI
-openapi.json
-openapi.yaml

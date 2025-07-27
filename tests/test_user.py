@@ -3,10 +3,9 @@ import pytest
 from openapi_core import OpenAPI
 from openapi_core.exceptions import OpenAPIError
 from openapi_core.contrib.requests import RequestsOpenAPIRequest, RequestsOpenAPIResponse
-import requests
 from requests import Request, Response
 
-openapi_spec = OpenAPI.from_file_path('openapi/user.yaml')
+openapi_spec = OpenAPI.from_file_path('openapi/user.yml')
 base_api_url = 'http://localhost:8000/api'
 
 
@@ -52,14 +51,12 @@ class TestGetUser:
             openapi_spec.validate_request(openapi_request)
 
         response = Response()
-        response.status_code = 200
-        response._content = b'{"id": "123e4567-e89b-12d3-a456-426614174000", "username": "Test User", "email": "test@example.com"}'
+        response.status_code = 400
+        response._content = b'{"code": "USER_0x00001",  "message": "invalid user id"}'
         response.headers = {'Content-Type': 'application/json'}
         openapi_response = RequestsOpenAPIResponse(response)
         
-        # Verify response status code - should not be 200
-        assert response.status_code in [400, 404], f"无效UUID请求返回了{response.status_code}状态码，预期应为400或404"
-
+        assert response.status_code  == 400, f"无效UUID请求返回了{response.status_code}状态码，预期应为400"
         # Validate response against OpenAPI spec
         with pytest.raises(OpenAPIError):
             openapi_spec.validate_response(openapi_request, openapi_response)

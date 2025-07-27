@@ -10,4 +10,4 @@ dependencies:
   - prance
   - pip
   - pip:
-    - openapi-core
+    - openapi-core == 0.18.2

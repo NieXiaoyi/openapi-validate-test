@@ -80,7 +80,22 @@ class TestGetUser:
         # Validate response against OpenAPI spec
         with pytest.raises(OpenAPIError):
             response_validator.validate(openapi_request, openapi_response)
-        
+    
+    def test_invalid_type_of_age(self):
+        """Test validation fails with invalid type of age"""
+        url = f'{base_api_url}/users/123e4567-e89b-12d3-a456-426614174000'
+        request = Request('GET', url)
+        openapi_request = RequestsOpenAPIRequest(request)
+
+        response = Response()
+        response.status_code = 200
+        # the type of age is string, not integer
+        response._content = b'{"id": "123e4567-e89b-12d3-a456-426614174000", "username": "Test User", "age": "30"}'
+        response.headers = {'Content-Type': 'application/json'}
+        openapi_response = RequestsOpenAPIResponse(response)
+
+        with pytest.raises(OpenAPIError):
+            response_validator.validate(openapi_request, openapi_response)
 
 class TestDeleteUser:
     def test_valid_delete_request(self):

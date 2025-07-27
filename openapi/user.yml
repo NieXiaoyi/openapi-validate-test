@@ -46,6 +46,19 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+  /users:
+    get:
+      summary: List Users
+      description: Get a list of all users
+      responses:
+        '200':
+          description: Successfully retrieved user list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
   /users/{userId}:
     get:
       summary: Get User Information
@@ -86,7 +99,7 @@ paths:
         '204':
           description: User deleted successfully, no content returned
         '404':
-          description: 用户不存在
+          description: User not found
           content:
             application/json:
               schema:
@@ -121,18 +134,13 @@ components:
         username:
           type: string
           description: 用户名
-        email:
-          type: string
-          format: email
-          description: User email
-        created_at:
-          type: string
-          format: date-time
-          description: User creation time
+        age:
+          type: integer
+          description: User age
       required:
         - id
         - username
-        - email
+        - age
     Error:
       type: object
       properties:

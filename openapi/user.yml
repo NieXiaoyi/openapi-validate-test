@@ -1,16 +1,16 @@
 openapi: 3.0.3
 info:
-  title: 用户信息API
-  description: 获取用户信息的接口文档
+  title: User Information API
+  description: API documentation for user information retrieval
   version: 1.0.0
 servers:
   - url: http://localhost:8000/api
-    description: 开发服务器
+    description: Development Server
 paths:
   /auth:
     post:
-      summary: 用户认证
-      description: 通过用户名密码获取访问令牌
+      summary: User Authentication
+      description: Obtain access token via username and password
       requestBody:
         required: true
         content:
@@ -25,7 +25,7 @@ paths:
               required: true
               schema:
                 type: string
-                description: 访问令牌
+                description: Access Token
           content:
             application/json:
               schema:
@@ -33,47 +33,47 @@ paths:
                 properties:
                   message:
                     type: string
-                    description: 成功消息
+                    description: Success message
         '400':
-          description: 无效的请求参数
+          description: Invalid request parameters
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
         '401':
-          description: 认证失败，用户名或密码错误
+          description: Authentication failed, incorrect username or password
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
   /users/{userId}:
     get:
-      summary: 获取用户信息
-      description: 根据用户ID获取用户详细信息
+      summary: Get User Information
+      description: Get user details by user ID
       parameters:
         - name: userId
-          in: path
           required: true
-          description: 用户ID
+          in: path
+          description: User ID
           schema:
             type: string
             format: uuid
       responses:
         '200':
-          description: 成功获取用户信息
+          description: Successfully retrieved user information
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
         '404':
-          description: 用户不存在
+          description: User not found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
     delete:
-      summary: 删除用户
-      description: 根据用户ID删除指定用户
+      summary: Delete User
+      description: Delete specified user by user ID
       parameters:
         - name: userId
           in: path
@@ -84,7 +84,7 @@ paths:
             format: uuid
       responses:
         '204':
-          description: 用户删除成功，无返回内容
+          description: User deleted successfully, no content returned
         '404':
           description: 用户不存在
           content:
@@ -92,7 +92,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
         '400':
-          description: 无效的用户ID格式
+          description: Invalid user ID format
           content:
             application/json:
               schema:
@@ -104,10 +104,10 @@ components:
       properties:
         username:
           type: string
-          description: 用户名
+          description: Username
         password:
           type: string
-          description: 密码
+          description: Password
       required:
         - username
         - password
@@ -117,18 +117,18 @@ components:
         id:
           type: string
           format: uuid
-          description: 用户唯一标识
+          description: Unique user identifier
         username:
           type: string
           description: 用户名
         email:
           type: string
           format: email
-          description: 用户邮箱
+          description: User email
         created_at:
           type: string
           format: date-time
-          description: 用户创建时间
+          description: User creation time
       required:
         - id
         - username
@@ -138,10 +138,10 @@ components:
       properties:
         code:
           type: string
-          description: 错误代码
+          description: Error code
         message:
           type: string
-          description: 错误信息
+          description: Error message
       required:
         - code
         - message
